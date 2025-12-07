@@ -1,6 +1,97 @@
-Accounts
+scalar Time
 
 
-Products
+type Account{
+      id: String!
+      name: String!
+      orders: [Order!]!
+      createdAt: Time!
+      updatedAt: Time!
+}
+
+
+type Product{
+      id: String!
+      name: String!
+      description: String!
+      price: Float!
+      createdAt: Time!
+      updatedAt: Time!
+}
+
+type Order{
+      id: String!
+      accountId: String!
+      products:[OrderProduct!]!
+      quantity: Int!
+      totalPrice: Float!
+      createdAt: Time!
+      updatedaAt: Time!
+}
+
+type OrderedProduct{
+      id: String!
+      name: String!
+      description: String!
+      price: Float!
+      productId: String!
+      quantity: Int!
+      createdAt: Time!
+      updatedAt: Time!
+}
+
+
+input PaginationInput{
+  offset: Int  # number of records to skip
+  limit: Int   # number of records to pull
+}
+
+input AccountInput{
+      name: String!
+      email : String!
+      password: String!
+}
+
+input ProductInput{
+      name: String!
+      description: String!
+      price: Float!
+}
+
+input OrderProductInput {
+ id: String!
+      quantity: Int!
+}
+
+input OrderInput{
+      accountId: String!
+      products: [OrderProductInput!]!
+}
+
+
+type Query {
+      getAccount(id: String!): Account
+      listAccounts(pagination: PaginationInput): [Account!]!
+      
+      getProduct(id: String!): Product
+      listProducts(pagination: PaginationInput): [Product!]!
+}
+
+type Mutation {
+      createAccount(input: AccountInput!): Account!
+      updateAccount(id: String!, input: AccountInput!): Account!
+      deleteAccount(id: String!): Boolean!
+
+      createProduct(input: ProductInput!): Product!
+      updateProduct(id: String!, input: ProductInput!): Product!
+      deleteProduct(id: String!): Boolean!
+
+      createOrder(input: OrderInput!): Order!
+      updateOrder(id: String!, input: OrderInput!): Order!
+      deleteOrder(id: String!): Boolean!
+}
+
+
+
 
 

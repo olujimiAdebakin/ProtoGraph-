@@ -1,0 +1,9 @@
+schema: schema.graphql
+
+
+models:
+  Account:
+    model: github.com/olujimiAdebakin/ProtoGraph/models.Account
+    fields:
+    orders:
+    resolver: true
