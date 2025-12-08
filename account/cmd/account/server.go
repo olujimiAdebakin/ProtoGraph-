@@ -27,7 +27,8 @@ func ListenGRPCServer(service Service, port int) error {
 	// Create TCP listener on specified port (e.g., ":50051")
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
 	if err != nil {
-		return err // Return error if port binding fails
+         // Return error if port binding fails
+		return err
 	}
 
 	// Create new gRPC server instance
@@ -66,8 +67,8 @@ func (s *grpcServer) PostAccount(ctx context.Context, req *pb.PostAccountRequest
 			Email: account.Email, 
 		},
 	}
-
-	return resp, nil // Return success response
+// Return success response
+	return resp, nil 
 }
 
 // GetAccount handles single account retrieval requests via gRPC
@@ -88,7 +89,7 @@ func (s *grpcServer) GetAccount(ctx context.Context, req *pb.GetAccountRequest) 
 			Id:    account.ID,    // Map ID
 			Name:  account.Name,  // Map name
 			Email: account.Email, // Map email
-			// Password omitted for security
+			
 		},
 	}, nil
 }
@@ -103,7 +104,8 @@ func (s *grpcServer) ListAccounts(ctx context.Context, req *pb.ListAccountsReque
 	// take: Number of records to fetch (limit)
 	accounts, err := s.service.ListAccounts(ctx, req.Skip, req.Take)
 	if err != nil {
-		return nil, err // Propagate business logic errors
+        // Propagate business logic errors
+		return nil, err 
 	}
 
 	// Initialize empty response
@@ -116,11 +118,10 @@ func (s *grpcServer) ListAccounts(ctx context.Context, req *pb.ListAccountsReque
 			Id:    account.ID,    // Map ID
 			Name:  account.Name,  // Map name
 			Email: account.Email, // Map email
-			// Password omitted for security
 		})
 	}
-	
-	return resp, nil // Return paginated account list
+	// Return paginated account list
+	return resp, nil 
 }
 
 // DeleteAccount handles account deletion requests via gRPC
@@ -137,7 +138,8 @@ func (s *grpcServer) DeleteAccount(ctx context.Context, req *pb.DeleteAccountReq
 	// Returns deleted account info (optional) and error
 	deletedAt, err := s.service.DeleteAccount(ctx, req.Id)
 	if err != nil {
-		return nil, err // Return error if deletion fails
+        // Return error if deletion fails
+		return nil, err 
 	}
 	
 	// Return success response with optional deleted account info
