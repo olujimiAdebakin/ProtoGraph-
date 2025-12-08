@@ -5,6 +5,7 @@ import (
 	"github.com/segmentio/ksuid"
 	"github.com/golang.org/x/crypto/bcrypt"
 	"fmt"
+	"time"
 	"errors"
 )
 
@@ -37,6 +38,8 @@ type Account struct {
 	Name     string `json:"name"`     // User's name
 	Email    string `json:"email"`    // User's email address
 	Password string `json:"password"` // Hashed password do not expose in APIs
+	CreatedAt time.Time
+      UpdatedAt time.Time
 }
 
 // accountService implements the Service interface by interacting with a repository.

@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+package pb;
+
+message Account {
+  string id = 1;
+  string name = 2;
+  string email = 3;
+  string password = 6;
+  string created_at = 4;
+  string updated_at = 5;
+}
+
+// CREATE
+message PostAccountRequest {
+  string name = 1;
+  string email = 2;
+  string password = 3;  // Added password!
+}
+
+message PostAccountResponse {
+  Account account = 1;
+}
+
+// READ - Single
+message GetAccountRequest {
+  string id = 1;
+}
+
+message GetAccountResponse {
+  Account account = 1;
+}
+
+// READ - Multiple
+message ListAccountsRequest {
+  uint64 skip = 1;
+  uint64 take = 2;
+}
+
+message ListAccountsResponse {
+  repeated Account accounts = 1;
+}
+
+// UPDATE
+message PutAccountRequest {
+  string id = 1;
+  string name = 2;
+  string email = 3;
+}
+
+message PutAccountResponse {
+  Account account = 1;
+}
+
+// DELETE
+message DeleteAccountRequest {
+  string id = 1;
+}
+
+message DeleteAccountResponse {
+  bool success = 1;
+}
+
+service AccountService {
+  // CREATE
+  rpc PostAccount(PostAccountRequest) returns (PostAccountResponse);
+  
+  // READ - Single
+  rpc GetAccount(GetAccountRequest) returns (GetAccountResponse);
+  
+  // READ - Multiple
+  rpc ListAccounts(ListAccountsRequest) returns (ListAccountsResponse);
+  
+  // UPDATE
+  rpc PutAccount(PutAccountRequest) returns (PutAccountResponse);
+  
+  // DELETE
+  rpc DeleteAccount(DeleteAccountRequest) returns (DeleteAccountResponse);
+}
