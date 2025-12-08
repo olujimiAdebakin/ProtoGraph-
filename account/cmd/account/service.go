@@ -2,18 +2,18 @@ package account
 
 import (
 	"context"
-	"github.com/segmentio/ksuid"
-	"github.com/golang.org/x/crypto/bcrypt"
-	"fmt"
-	"time"
 	"errors"
+	"fmt"
+	"github.com/golang.org/x/crypto/bcrypt"
+	"github.com/segmentio/ksuid"
+	"time"
 )
 
 // Predefined errors for input validation
 var (
-    ErrInvalidName    = errors.New("account name cannot be empty")
-    ErrInvalidEmail   = errors.New("email cannot be empty")
-    ErrWeakPassword   = errors.New("password must be at least 8 characters")
+	ErrInvalidName  = errors.New("account name cannot be empty")
+	ErrInvalidEmail = errors.New("email cannot be empty")
+	ErrWeakPassword = errors.New("password must be at least 8 characters")
 )
 
 // Service defines the business operations related to accounts.
@@ -34,12 +34,16 @@ type Service interface {
 
 // Account represents a user account with identifying and authentication data.
 type Account struct {
-	ID       string `json:"id"`       // Unique identifier for the account
-	Name     string `json:"name"`     // User's name
-	Email    string `json:"email"`    // User's email address
-	Password string `json:"password"` // Hashed password do not expose in APIs
+	ID        string `json:"id"`       // Unique identifier for the account
+	Name      string `json:"name"`     // User's name
+	Email     string `json:"email"`    // User's email address
+	Password  string `json:"password"` // Hashed password do not expose in APIs
 	CreatedAt time.Time
-      UpdatedAt time.Time
+	UpdatedAt time.Time
+}
+
+func (a *Account) Format(c3339 string) {
+	panic("unimplemented")
 }
 
 // accountService implements the Service interface by interacting with a repository.
@@ -102,20 +106,19 @@ func (s *accountService) ListAccounts(ctx context.Context, skip uint64, take uin
 	return s.repository.ListAccounts(ctx, skip, take)
 }
 
-
 func (s *accountService) DeleteAccount(ctx context.Context, id string) (*Account, error) {
 	// 1. Get the account first
 	acc, err := s.repository.GetAccountByID(ctx, id)
 	if err != nil {
-        return nil, err // could be not found or DB error
-    }
+		return nil, err // could be not found or DB error
+	}
 
-    // 2. Delete the account
-    err = s.repository.DeleteAccount(ctx, id)
-    if err != nil {
-        return nil, err
-    }
+	// 2. Delete the account
+	err = s.repository.DeleteAccount(ctx, id)
+	if err != nil {
+		return nil, err
+	}
 
-    // 3. Return the deleted account
-    return acc, nil
+	// 3. Return the deleted account
+	return acc, nil
 }

@@ -59,6 +59,9 @@ message DeleteAccountRequest {
 
 message DeleteAccountResponse {
   bool success = 1;
+   string message = 2; 
+  string deleted_account_id = 3; 
+  string deleted_at = 4;          
 }
 
 service AccountService {
