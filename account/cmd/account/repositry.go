@@ -64,12 +64,11 @@ func NewPostgresRepositry(url string) (AccountRepository, error){
 	}
 
      // Verify connection
-	err := db.Ping()
-	if err != nil {
+	if err := db.Ping(); err != nil{
 		return nil,err
 	}
 
-	return &postgresRepositry(db: db), nil
+	return &postgresRepositry{db: db}, nil
 }
 
 
@@ -92,7 +91,7 @@ func (r *postgresRepositry) PutAccount(ctx context.Context, a Account) error{
 // It returns (*Account, nil) if found.
 // It returns (nil, nil) if no row exists.
 // It returns (nil, error) for DB errors.
-func (r *postgresRepositry) GetAcountByID(ctx context.Context, id string) (*Account, error){
+func (r *postgresRepositry) GetAccountByID(ctx context.Context, id string) (*Account, error){
     // Create the struct that will hold the scanned DB values
        acc := &Account{}
 
