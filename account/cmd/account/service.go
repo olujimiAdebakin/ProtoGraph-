@@ -13,7 +13,7 @@ import (
 var (
 	ErrInvalidName  = errors.New("account name cannot be empty")
 	ErrInvalidEmail = errors.New("email cannot be empty")
-	ErrWeakPassword = errors.New("password must be at least 8 characters")
+	ErrWeakPassword = errors.New("password must be at least 5 characters")
 )
 
 // Service defines the business operations related to accounts.
@@ -66,7 +66,7 @@ func (s *accountService) PostAccount(ctx context.Context, name, email, password 
 	if email == "" {
 		return nil, ErrInvalidEmail
 	}
-	if len(password) < 8 {
+	if len(password) < 5 {
 		return nil, ErrWeakPassword
 	}
 
@@ -100,8 +100,8 @@ func (s *accountService) GetAccount(ctx context.Context, id string) (*Account, e
 // ListAccounts provides a paginated list of accounts.
 // Caps the page size to 50 to prevent overloading.
 func (s *accountService) ListAccounts(ctx context.Context, skip uint64, take uint64) ([]Account, error) {
-	if take > 50 || (skip == 0 && take == 0) {
-		take = 100 // enforce a maximum page size
+	if take > 20 || (skip == 0 && take == 0) {
+		take = 20 // enforce a maximum page size
 	}
 	return s.repository.ListAccounts(ctx, skip, take)
 }
